@@ -29,7 +29,6 @@ Plugin 'morhetz/gruvbox'
 
 call vundle#end()
 filetype plugin indent on
-execute pathogen#infect()
 
 "}}} END PLUGIN
 "
