@@ -6,8 +6,8 @@ alias nvimrc="$EDITOR ~/.config/nvim/init.vim"
 alias tmconf="$EDITOR ~/.tmux.conf"
 
 #git aliases
-function gch() { git checkout HEAD~$1 }
-function gdh() { git diff HEAD~$1 }
+function gch() { git checkout HEAD~$1 ${@:2} }
+function gdh() { git diff HEAD~$1 ${@:2}}
 alias gstu='git status -uno'
 alias gdt='git difftool'
 alias gdno='git diff --name-only'
@@ -18,7 +18,7 @@ alias call_home="ssh -o StrictHostKeyChecking=no -i ~/.ssh/local_machine ${LOCAL
 function add_vm () {
 ssh-copy-id -i ~/.ssh/vm root@$1
 }
-function vm_ssh() {
+function ssh_vm() {
 ssh -i ~/.ssh/vm root@$1
 }
 function send_home() {
