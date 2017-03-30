@@ -28,7 +28,7 @@ ZSH_THEME="candy"
  DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
- ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
  COMPLETION_WAITING_DOTS="true"
@@ -86,3 +86,6 @@ alias tmux="tmux -2"
 # Laptop username for use with tolaptop script
 LOCAL_MACHINE_USER="vancewillbanks"
 export LOCAL_MACHINE_USER
+
+# start ssh agent
+eval $(ssh-agent -s) > /dev/null
