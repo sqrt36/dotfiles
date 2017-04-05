@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# Exit codes:
+#  1: insufficient permission
+#  2: necessary program not installed
+
+#if [ $(whoami) != "root" ] ; then
+    #echo "You must execute this script as root (sudo)."
+    #exit 1
+#fi
+
+# check for installed programs
+installed=(git zsh vim cmake)
+not_installed=()
+for i in ${installed[@]}; do
+    if ! which $i &> /dev/null ; then
+        not_installed+=($i)
+    fi
+done
+if [ ${#not_installed[@]} != 0 ] ; then
+    echo "The following programs are needed but not installed: ${not_installed[@]}"
+    exit 2
+fi
+
+# remove files and links if they exist
+links=(~/.zshrc ~/.vimrc ~/.tmux.conf ~/.gitconfig ~/.oh-my-zsh/plugins/custom/custom.plugin.zsh)
+for link in ${links[@]} ; do
+    if [ -e $link ] ; then
+        rm $link
+    fi
+    if [ -h $link ] ; then
+        unlink $link
+    fi
+done
+
+# zsh
+# Install oh-my-zsh
+if ! test -d ~/.oh-my-zsh ; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    rm ~/.zshrc ~/.zshrc.pre-oh-my-zsh
+fi
+# link zshrc
+ln -s $PWD/zshrc ~/.zshrc
+# set up custom plugin
+ZSH_CUSTOM=~/.oh-my-zsh/custom
+if ! test -d $ZSH_CUSTOM/plugins/custom ; then
+    mkdir -p $ZSH_CUSTOM/plugins/custom
+fi
+ln -s $PWD/custom.plugin.zsh $ZSH_CUSTOM/plugins/custom/custom.plugin.zsh
+
+# vim
+# link vimrc
+ln -s $PWD/vimrc ~/.vimrc
+# install plugin manager and plugins
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+vim +PluginInstall +qall
+echo "Running YouCompleteMe install script."
+python ~/.vim/bundle/YouCompleteMe/install.py
+
+# link tmux.conf
+ln -s $PWD/tmux.conf ~/.tmux.conf
+
+# link gitconfig
+ln -s $PWD/gitconfig ~/.gitconfig
