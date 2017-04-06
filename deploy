@@ -23,7 +23,8 @@ if [ ${#not_installed[@]} != 0 ] ; then
 fi
 
 # remove files and links if they exist
-links=(~/.zshrc ~/.vimrc ~/.tmux.conf ~/.gitconfig ~/.oh-my-zsh/plugins/custom/custom.plugin.zsh)
+custom_plugin_dir=~/.oh-my-zsh/custom/plugins/custom
+links=(~/.zshrc ~/.vimrc ~/.tmux.conf ~/.gitconfig $custom_plugin_dir/custom.plugin.zsh)
 for link in ${links[@]} ; do
     if [ -e $link ] ; then
         rm $link
@@ -42,11 +43,10 @@ fi
 # link zshrc
 ln -s $PWD/zshrc ~/.zshrc
 # set up custom plugin
-ZSH_CUSTOM=~/.oh-my-zsh/custom
-if ! test -d $ZSH_CUSTOM/plugins/custom ; then
-    mkdir -p $ZSH_CUSTOM/plugins/custom
+if ! test -d $custom_plugin_dir ; then
+    mkdir -p $custom_plugin_dir
 fi
-ln -s $PWD/custom.plugin.zsh $ZSH_CUSTOM/plugins/custom/custom.plugin.zsh
+ln -s $PWD/custom.plugin.zsh $custom_plugin_dir/custom.plugin.zsh
 
 # vim
 # link vimrc
