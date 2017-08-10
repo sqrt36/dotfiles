@@ -9,13 +9,18 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
+Plugin 'nelstrom/vim-visual-star-search'
+Plugin 'tommcdo/vim-lion'
 Plugin 'vim-scripts/UltiSnips'
+Plugin 'vim-scripts/abolish.vim'
+Plugin 'kana/vim-repeat'
 Plugin 'vim-airline/vim-airline'
 Plugin 'godlygeek/csapprox'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'tpope/vim-surround'
 Plugin 'moll/vim-bbye'
+Plugin 'tangledhelix/vim-kickstart'
 Plugin 'Valloric/YouCompleteMe', {
             \ 'build' : {
             \ 'unix': './install.sh --clang-completer --system-libclang --omnisharp-completer',
@@ -31,6 +36,17 @@ call vundle#end()
 filetype plugin indent on
 
 "}}} END PLUGIN
+"
+"{{{ PLUGIN CONFIG
+"Start interactive EasyAlign in visual mode
+xmap ga <Plug>(EasyAlign)
+"Start interactive EasyAlign for motion/text object
+nmap ga <Plug>(EasyAlign)
+
+let g:lion_squeeze_spaces = 1
+
+let g:sysnastic_python_checkers = ['pylint', 'flake8']
+"}}} END PLUGIN CONFIG
 "
 "{{{ CUSTOM MAPPINGS
 let mapleader = ","
@@ -76,9 +92,13 @@ nnoremap <leader>nf :NERDTreeFind<cr>
 "toggle folds
 nmap <Space> za
 
+"send yank buffer to tmux
+nmap <leader>y :call system("tmux set-buffer ", @0)<cr>
+
 "}}} END CUSTOM MAPPINGS
 
 "{{{ SETTINGS
+set shell=/usr/bin/zsh
 set mouse=a
 
 syntax enable
@@ -112,5 +132,17 @@ set autoindent smartindent
 
 "{{{ AUTOCMD SETTINGS
 "make the vimrc fold by marker
+augroup VIM
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker foldlevelstart=999 foldminlines=0
+augroup END
+augroup XML
+    autocmd!
+    autocmd FileType xml setlocal foldmethod=indent foldlevelstart=999 foldminlines=0
+augroup END
+
+" No need for smartintent in python, esp. since it destroys comment
+" indentation
+au! FileType python setl nosmartindent
 
 "}}} END AUTOCMD SETTINGS
