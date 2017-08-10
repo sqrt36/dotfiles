@@ -1,5 +1,5 @@
 [user]
-    email = vancew@concurrent.com
+    email = vance.willbanks@ccur.com
     name = Vance Willbanks
 
 [color]
@@ -22,3 +22,5 @@
     added = yellow
     changed = green
     untracked = cyan
+[alias]
+    l = log --graph --pretty=format:'%C(yellow)%H %Creset%C(cyan)%aN%Creset %C(green)%ar %n %b %w(70) %s%n' --color=auto --stat
