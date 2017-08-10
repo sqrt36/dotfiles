@@ -12,6 +12,9 @@ alias gstu='git status -uno'
 alias gdt='git difftool'
 alias gdno='git diff --name-only'
 alias gdm='git diff master'
+function gdd() { git diff develop ${@:2} }
+function grbih() { git rebase -i HEAD~$1 ${@:2} }
+alias glm='git l'  # git log mike
 
 # ssh aliases and functions
 alias call_home="ssh -o StrictHostKeyChecking=no -i ~/.ssh/local_machine ${LOCAL_MACHINE_USER}@$(echo $SSH_CONNECTION | awk '{print $1}')"
@@ -48,3 +51,4 @@ UNBLINK='\e[0;25m']]]
 
 # other aliases
 alias drinkingbird='yes'
+alias ad='docker run -it -v ${PWD}:/src -w /src terzom/ansible-deploy:latest sh'
